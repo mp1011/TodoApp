@@ -21,10 +21,6 @@ function TodoInput(props: { onTextEntered: (text: string) => void }){
         <div>
             <input 
                 type='text'
-            />
-
-            <input 
-                type='text'
                 value={text}
                 onKeyDown={handleKeyDown}
                 onChange={handleChange}

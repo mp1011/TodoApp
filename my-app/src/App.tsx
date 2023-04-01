@@ -1,32 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
+import "reflect-metadata";
 import './App.css';
 import TodoInput from './components/todo-input'; 
+import {AddTodoRequest,AddTodoRequestHandler} from './requests/add-todo';
+import { Container } from 'typedi';
+import { GetTodoItemsRequest, GetTodoItemsRequestHandler } from './requests/get-todo-items';
+import { useState } from 'react';
+import TodoItem from './models/todo-item';
+import TodoComponent from './components/todo-component';
+import DataAccess from './services/data-access';
 
 function App() {
 
+  
+  const [items, setItems] = useState<TodoItem[]>([]);
+  const [count, setCount] = useState(0);
+
   const onTodoTextEntered = (text: string) => {
-    alert(`you said ${text}`);
+
+      let handler = Container.get(AddTodoRequestHandler);
+      handler.handle(new AddTodoRequest(text));
+
+      let handler2 = Container.get(GetTodoItemsRequestHandler);
+      setItems(handler2.handle(new GetTodoItemsRequest()));     
+      setCount(count+1);
   };
+
+  Container.get(DataAccess);
 
   return (
     <div className="App">
       <header className="App-header">
 
         <TodoInput onTextEntered={onTodoTextEntered} />
+        <p>There are {items.length} items</p>
+        <p>Count: {count}</p>
         
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload. (ok)
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <ul>
+          {items.map((item) => (
+            <li key={item.text}>
+              <TodoComponent item={item} />
+            </li>
+          ))}
+        </ul>
+        
       </header>
     </div>
   );
