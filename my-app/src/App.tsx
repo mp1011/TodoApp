@@ -2,14 +2,12 @@ import React from 'react';
 import "reflect-metadata";
 import './App.css';
 import TodoInput from './components/todo-input'; 
-import {AddTodoRequest,AddTodoRequestHandler} from './requests/add-todo';
-import { Container } from 'typedi';
-import { GetTodoItemsRequest, GetTodoItemsRequestHandler } from './requests/get-todo-items';
+import { AddTodoRequest } from './requests/add-todo';
+import { GetTodoItemsRequest } from './requests/get-todo-items';
 import { useState } from 'react';
 import TodoItem from './models/todo-item';
 import TodoComponent from './components/todo-component';
-import DataAccess from './services/data-access';
-
+import Mediator from './services/mediator';
 function App() {
 
   
@@ -18,15 +16,10 @@ function App() {
 
   const onTodoTextEntered = (text: string) => {
 
-      let handler = Container.get(AddTodoRequestHandler);
-      handler.handle(new AddTodoRequest(text));
-
-      let handler2 = Container.get(GetTodoItemsRequestHandler);
-      setItems(handler2.handle(new GetTodoItemsRequest()));     
+      Mediator.send(new AddTodoRequest(text));
+      setItems(Mediator.send(new GetTodoItemsRequest()));     
       setCount(count+1);
   };
-
-  Container.get(DataAccess);
 
   return (
     <div className="App">

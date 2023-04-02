@@ -1,13 +1,14 @@
 import TodoItem from '../models/todo-item';
 import DataAccess from '../services/data-access';
 import { Service, ContainerInstance } from 'typedi';
+import IRequestHandler from './request';
 
 class GetTodoItemsRequest {
 
 }
 
-@Service()
-class GetTodoItemsRequestHandler 
+@Service("GetTodoItemsRequestHandler")
+class GetTodoItemsRequestHandler implements IRequestHandler<GetTodoItemsRequest,TodoItem[]>
 {
     private dataAccess : DataAccess;
 

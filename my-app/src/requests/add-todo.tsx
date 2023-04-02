@@ -1,7 +1,7 @@
 import TodoItem from '../models/todo-item';
 import DataAccess from '../services/data-access';
 import { Service, ContainerInstance } from 'typedi';
-
+import IRequestHandler from './request';
 
 class AddTodoRequest {
     text: string;
@@ -11,8 +11,8 @@ class AddTodoRequest {
     }
 }
 
-@Service()
-class AddTodoRequestHandler 
+@Service("AddTodoRequestHandler")
+class AddTodoRequestHandler implements IRequestHandler<AddTodoRequest, TodoItem>
 {
     private dataAccess : DataAccess;
 
@@ -20,7 +20,7 @@ class AddTodoRequestHandler
         this.dataAccess = container.get(DataAccess);
     }
 
-    handle(request:AddTodoRequest)
+    handle(request:AddTodoRequest) : TodoItem
     {
         return this.dataAccess
             .insertTodoItem(new TodoItem(request.text));

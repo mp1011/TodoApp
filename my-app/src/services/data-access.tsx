@@ -9,9 +9,10 @@ class DataAccess {
         this.items = [];
     }
 
-    insertTodoItem(item:TodoItem) {
+    insertTodoItem(item:TodoItem) : TodoItem {
         
         this.items.push(item);
+        return item;
     }
 
     getTodoItems() : TodoItem[] {
