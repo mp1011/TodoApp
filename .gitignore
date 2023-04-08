@@ -10,6 +10,7 @@
 !/tmp/.keep
 *.swp
 *~
+bin 
 
 # Node.js and React
 /node_modules
