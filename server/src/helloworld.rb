@@ -1,3 +1,6 @@
+require 'dry-container'
+require 'dry-auto_inject'
+
 greetings = ["Hi","Hello","Good Morning"]
 greetings.each do |x|
     puts "#{x}, World!"
@@ -71,3 +74,4 @@ end
 
 g2 = GreetingClassWithBase.new("Hello","Saturn")
 g2.say 
+
