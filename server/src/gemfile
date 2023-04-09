@@ -1,3 +1,5 @@
 source "https://rubygems.org"
 gem 'dry-container'
 gem 'dry-auto_inject'
+gem 'sqlite3'
+gem 'rails'
