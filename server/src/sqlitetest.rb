@@ -1,31 +1,52 @@
 require 'sqlite3'
 require 'active_record'
 
+module ActiveRecordHelpers
+
+  def get_page(pageNumber, pageSize)
+      skip = pageNumber*pageSize;
+      self.order(:id)
+          .offset(skip)
+          .limit(pageSize)
+          .to_a
+  end 
+
+end 
+
 ActiveRecord::Base.establish_connection(
     adapter: 'sqlite3',
     database: 'D:/GitHub/TodoApp/server/db/todoapp.db'
   )
 
-class TodoItem < ActiveRecord::Base 
-    self.table_name = 'TodoItem'
-   # attr_accessor :id, :text
+ActiveRecord::Base.include(ActiveRecordHelpers)
+
+class ActiveRecord::Relation
+
+  def get_page3(pageNumber, pageSize)
+    skip = pageNumber*pageSize;
+    self.order(:id)
+        .offset(skip)
+        .limit(pageSize)
+        .to_a
+  end 
+
 end 
 
-# item = TodoItem.new()
-# item.Text = "my new item from AR"
+class TodoItem < ActiveRecord::Base 
+    include ActiveRecordHelpers
+    
+    self.table_name = 'TodoItem'
 
-# if item.valid?
-#   puts "valid"
-#   item.save 
-# else
-#   puts "not valid!"
-#   puts item.errors.full_messages
-# end
-
-# items = TodoItem.where("text LIKE '%item%'")
-# text = items.map { |x| x.Text}
-# puts text 
+    def get_page2(pageNumber, pageSize)
+      skip = pageNumber*pageSize;
+      self.order(:id)
+          .offset(skip)
+          .limit(pageSize)
+          .to_a
+    end 
+end 
 
 puts TodoItem
-  .where("text LIKE '%item%'")
+  .limit(100)
+  .get_page3(0,5)
   .map{|x| x.Text}

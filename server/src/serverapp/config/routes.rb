@@ -8,4 +8,9 @@ Rails.application.routes.draw do
     get '/helloworld/:x', to: 'hello_world#say'
   end
 
+  Rails.application.routes.draw do
+    get '/todoitem', to: 'todo_item#get'
+  end
+
+
 end
