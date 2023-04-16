@@ -14,11 +14,11 @@ ActiveRecord::Base.include(ActiveRecordHelpers)
 class DataContext 
 
     def todoItems 
-        return TodoItem.where("1=1")
+        return TodoItemDbRecord.where("1=1")
     end 
     
     def testMethod
-        return TodoItem
+        return TodoItemDbRecord
             .where("text LIKE '%item%'")
             .map{|x| x.Text}
             .join(",")

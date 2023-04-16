@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     get '/todoitem', to: 'todo_item#get'
   end
 
-
+  Rails.application.routes.draw do
+    post '/todoitem', to: 'todo_item#post'
+  end
 end
