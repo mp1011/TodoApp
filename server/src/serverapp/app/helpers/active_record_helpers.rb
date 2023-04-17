@@ -1,10 +1,9 @@
 module ActiveRecordHelpers
 
-    def get_page(pageNumber, pageSize)
-        skip = pageNumber*pageSize;
+    def get_page(pageInfo)
         self.order(:id)
-            .offset(skip)
-            .limit(pageSize)
+            .offset(pageInfo.skip)
+            .limit(pageInfo.pageSize)
             .to_a
     end 
 

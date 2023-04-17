@@ -1,29 +1,24 @@
 require_relative '../helpers/di_container.rb'
 require_relative '../domain/models/todoitem'
+require_relative '../features/get_todo_items'
+require_relative '../features/save_todo_item'
+require_relative '../domain/models/PageInfo'
 
 class TodoItemController < ApplicationController    
-    include $injector["dataContext"]
-
+    
     def get   
         page_number = params[:pageNumber].to_i || 0;
         page_size = params[:pageSize].to_i || 5;
         search = params[:search]
 
-        if(page_size == 0)
-          page_size = 5
-        end 
-          
-        #todo, put this logic in a query
-        render json: dataContext
-          .todoItems
-          .where("text like ?", "%#{search}%")
-          .get_page(page_number, page_size) 
-          .map { |x| TodoItem.mapFrom(x)}     
+        pageInfo = PageInfo.new(page_number, page_size)
+        render json: GetTodoItems.new(search, pageInfo).handle()           
     end
 
     def post 
 
          todo_item = TodoItem.fromJson(JSON.parse(request.body.read))
+         SaveTodoItem.new(todo_item).handle()
          render plain: todo_item.text
     end 
 

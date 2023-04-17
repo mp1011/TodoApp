@@ -31,6 +31,8 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
         get '/todoitem', params: { search: item_text}
         new_array = JSON.parse(response.body)
         assert_not_empty new_array
+
+        puts new_array
    
     end
 

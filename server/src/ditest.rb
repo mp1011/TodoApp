@@ -31,3 +31,21 @@ end
 
 gwi2 = GreetingWithAutoInjection.new()
 gwi2.say 
+
+
+class GreetingWithAutoInjectionAndConstructor
+    include $injector["dependency2"]
+  
+    def initialize(myVar, dependency2)
+        @myVar = myVar
+        @d2 = dependency2
+    end 
+
+    def say 
+        puts @myVar
+        puts dependency2.say
+    end 
+end 
+
+gwi3 = GreetingWithAutoInjectionAndConstructor.new("foo")
+gwi3.say

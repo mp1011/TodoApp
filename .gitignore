@@ -26,3 +26,5 @@ yarn-debug.log*
 yarn-error.log*
 server/src/serverapp/tmp/cache/
 server/src/serverapp/tmp/pids/server.pid
+server/src/serverapp/tmp/cache/bootsnap/load-path-cache
+server/src/serverapp/tmp/cache/bootsnap/

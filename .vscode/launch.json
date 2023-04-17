@@ -8,7 +8,7 @@
             "name": "Debug Local File",
             "type": "Ruby",
             "request": "launch",
-            "program": "${workspaceRoot}/server/src/sqlitetest.rb"
+            "program": "${workspaceRoot}/server/src/ditest.rb"
         },
         {
             "type": "chrome",
@@ -16,6 +16,19 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "rdbg",
+            "name": "Debug current file with rdbg",
+            "request": "launch",
+            "script": "${workspaceRoot}/server/src/serverapp/bin/rails s",
+            "useBundler": false,
+            "command": "ruby"
+        },
+        {
+            "type": "rdbg",
+            "name": "Attach with rdbg",
+            "request": "attach"
         }
     ]
 }

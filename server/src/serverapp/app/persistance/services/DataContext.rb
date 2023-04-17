@@ -16,6 +16,13 @@ class DataContext
     def todoItems 
         return TodoItemDbRecord.where("1=1")
     end 
+
+    def saveTodoItem(item)
+        
+        dbItem = TodoItemDbRecord.new(text: item.text)
+        dbItem.save
+
+    end 
     
     def testMethod
         return TodoItemDbRecord
