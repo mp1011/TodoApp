@@ -1,26 +1,26 @@
-class Duck 
+class Duck
 
-    attr_accessor :name 
+    attr_accessor :name
 
     def initialize(n)
         @name=n
     end 
 
-    def quack 
+    def quack
         "i am a duck and my name is #{@name}"
     end 
 end 
 
-class Goose 
+class Goose
 
     def initialize(src:)
         @name = src.name
-    end 
+    end
 
-    def quack 
+    def quack
         "i am a goose and my name is #{@name}"
-    end 
-end 
+    end
+end
 
 duck = Duck.new('frank')
 goose = Goose.new(src: duck)

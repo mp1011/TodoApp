@@ -1,23 +1,24 @@
-require "test_helper"
-require_relative "../../app/domain/models/TodoItem"
+require 'test_helper'
+require_relative '../../app/models/data_models/todo_item'
+
 class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
-    test "search Todo Item by text" do 
+    test 'search Todo Item by text' do 
 
-        get '/todoitem', params: { search: "new item"}
-        todo_items = TodoItem.fromJsonArray(JSON.parse(response.body))
+        get '/todoitem', params: { search: 'new item' }
+        todo_items = TodoItem.from_json_array(JSON.parse(response.body))
 
         assert_not_empty todo_items 
 
         puts "GET /todoitem -> #{todo_items}"
    
         todo_items.each do |x|
-            assert_includes x.text, "new item"
+            assert_includes x.text, 'new item'
         end 
 
     end 
 
-    test "insert new Todo Item" do
+    test 'insert new Todo Item' do
         
         item_text = "UNIT TEST #{SecureRandom.uuid}"
 
@@ -36,5 +37,4 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
    
     end
 
-   
 end

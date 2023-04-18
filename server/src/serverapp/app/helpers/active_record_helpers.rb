@@ -1,10 +1,10 @@
 module ActiveRecordHelpers
 
-    def get_page(pageInfo)
-        self.order(:id)
-            .offset(pageInfo.skip)
-            .limit(pageInfo.pageSize)
+    def get_page(page_info)
+        order(:id)
+            .offset(page_info.skip)
+            .limit(page_info.page_size)
             .to_a
-    end 
+    end
 
 end 

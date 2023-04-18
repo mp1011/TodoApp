@@ -1,27 +1,23 @@
-require_relative '../helpers/di_container.rb'
-require_relative '../domain/models/todoitem'
+require_relative '../helpers/di_container'
+require_relative '../models/data_models/todo_item'
 
 class SaveTodoItem
-
-    attr_reader :item 
+    attr_reader :item
 
     def initialize(item)
         @item = item
     end 
 
     def handle()
-        SaveTodoItemHandler.new().handle(self)
+        SaveTodoItemHandler.new.handle(self)
     end 
 
 end
 
 class SaveTodoItemHandler
-    include $injector["dataContext"]
+    include $injector['data_context']
 
     def handle(request)
-
-        dataContext.saveTodoItem(request.item)
-                
-    end 
-
+        data_context.save_todo_item(request.item)
+    end
 end

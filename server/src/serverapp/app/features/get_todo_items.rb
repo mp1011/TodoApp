@@ -1,38 +1,36 @@
-require_relative '../helpers/di_container.rb'
-require_relative '../domain/models/todoitem'
+require_relative '../helpers/di_container'
+require_relative '../models/data_models/todo_item'
 
 class GetTodoItems
 
-    attr_reader :searchText 
-    attr_reader :pageInfo 
+    attr_reader :search_text, :page_info
 
-    def initialize(searchText, pageInfo)
-        @searchText = searchText
-        @pageInfo = pageInfo
+    def initialize(search_text, page_info)
+        @search_text = search_text
+        @page_info = page_info
     end 
 
-    def handle()
-        GetTodoItemsHandler.new().handle(self)
-    end 
+    def handle
+        GetTodoItemsHandler.new.handle(self)
+    end
 
 end
 
 class GetTodoItemsHandler
-    include $injector["dataContext"]
-
+    include $injector['data_context']
 
     def handle(request)
 
-        query = dataContext.todoItems
+        query = data_context.todo_items
 
-        if(!request.searchText.nil? && !request.searchText.empty?)
-            query = query.where("text like ?", "%#{request.searchText}%")
-        end 
+        if !request.search_text.nil? && !request.search_text.empty?
+            query = query.where('text like ?', "%#{request.search_text}%")
+        end
 
         query
-           .get_page(request.pageInfo) 
-           .map { |x| TodoItem.mapFrom(x)}     
+           .get_page(request.page_info)
+           .map { |x| TodoItem.map_from(x)}
 
-    end 
+    end
 
 end
