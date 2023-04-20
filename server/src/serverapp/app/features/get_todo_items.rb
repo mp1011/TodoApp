@@ -1,5 +1,6 @@
 require_relative '../helpers/di_container'
 require_relative '../models/data_models/todo_item'
+require_relative '../models/paged_result'
 
 class GetTodoItems
 
@@ -27,10 +28,12 @@ class GetTodoItemsHandler
             query = query.where('text like ?', "%#{request.search_text}%")
         end
 
-        query
+        paged_query = query
            .get_page(request.page_info)
            .map { |x| TodoItem.map_from(x)}
 
-    end
+        total_items = query.count
 
+        PagedResult.new(paged_query, request.page_info, total_items)
+    end
 end

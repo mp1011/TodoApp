@@ -73,4 +73,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "ruby-debug-ide"
+  gem "debase"
+  gem "rspec-core"
 end
