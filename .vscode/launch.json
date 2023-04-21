@@ -29,6 +29,24 @@
             "type": "rdbg",
             "name": "Attach with rdbg",
             "request": "attach"
-        }
+        },
+        {
+            "name": "Debug Jest Tests",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+              "--inspect-brk",
+              "${workspaceRoot}/node_modules/jest/bin/jest.js",
+              "--runInBand"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Jest Attach",
+            "port": 9229
+          }
     ]
 }

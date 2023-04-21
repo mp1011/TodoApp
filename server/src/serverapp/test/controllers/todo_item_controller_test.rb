@@ -8,7 +8,6 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
         get '/todoitem', params: { search: 'new item' }
 
-        json_response = JSON.parse(response.body)
         paged_result = PagedResult.from_json(JSON.parse(response.body), TodoItem)
         puts "total items = #{paged_result.total_items}"
         todo_items = paged_result.items

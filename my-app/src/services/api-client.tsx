@@ -1,5 +1,7 @@
 import TodoItem from '../models/todo-item';
 import { Service } from 'typedi';
+import PagedResult from '../models/paged-result';
+import PageInfo from '../models/page-info';
 
 @Service({ global: true })
 class ApiClient {
@@ -7,9 +9,14 @@ class ApiClient {
     //todo, get from settings
     hostName:string = "http:\\\\localhost:3000\\";
 
-    async getTodoItems() : Promise<TodoItem[]>
+    async getTodoItems(pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>>
     {
-        return this.getJson<TodoItem[]>("todoitem");
+        var query = "todoitem";
+        if(pageInfo){
+            query += `?pageNumber=${pageInfo.page_number}&pageSize=${pageInfo.page_size}`;
+        }
+
+        return this.getJson<PagedResult<TodoItem>>(query);
     }
 
     private async getJson<T>(url: string): Promise<T> {

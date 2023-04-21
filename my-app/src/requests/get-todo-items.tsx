@@ -16,9 +16,9 @@ class GetTodoItemsRequestHandler implements IRequestHandler<GetTodoItemsRequest,
         this.dataAccess = container.get(DataAccess);
     }
 
-    handle(request:GetTodoItemsRequest) : TodoItem[]
+    async handle(request:GetTodoItemsRequest) : Promise<TodoItem[]>
     {
-        return this.dataAccess.getTodoItems();
+        return await this.dataAccess.getTodoItems();
     }
 }
 
