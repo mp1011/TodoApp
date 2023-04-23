@@ -2,7 +2,7 @@ import React from 'react';
 import "reflect-metadata";
 import './App.css';
 import TodoInput from './components/todo-input'; 
-import { AddTodoRequest } from './requests/add-todo-item';
+import { AddTodoItemRequest } from './requests/add-todo-item';
 import { GetTodoItemsRequest } from './requests/get-todo-items';
 import { useState } from 'react';
 import TodoItem from './models/todo-item';
@@ -14,10 +14,10 @@ function App() {
   const [items, setItems] = useState<TodoItem[]>([]);
   const [count, setCount] = useState(0);
 
-  const onTodoTextEntered = (text: string) => {
+  const onTodoTextEntered = async (text: string) => {
 
-      Mediator.send(new AddTodoRequest(text));
-      setItems(Mediator.send(new GetTodoItemsRequest()));     
+      await Mediator.send(new AddTodoItemRequest(text));
+      setItems(await Mediator.send(new GetTodoItemsRequest()));     
       setCount(count+1);
   };
 

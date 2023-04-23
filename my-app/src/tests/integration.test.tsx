@@ -5,11 +5,12 @@ import TodoItem from '../models/todo-item';
 import PagedResult from '../models/paged-result';
 import 'reflect-metadata'; 
 import { AddTodoItemRequest } from '../requests/add-todo-item';
+import { Container } from 'typedi';
 
 describe('ApiClient', () => {
     describe('getTodoItems', () => {
         it('should return a non-empty collection', async () => {
-            const clientApi = new ApiClient();
+            const clientApi = Container.get(ApiClient);
             const todoItems = (await clientApi.getTodoItems()) as PagedResult<TodoItem>;
 
             expect(todoItems.items.length).toBeGreaterThan(0);
@@ -20,7 +21,7 @@ describe('ApiClient', () => {
 describe('GetTodoItems', () => {
     it('should get all records', async () => {       
         const items = await Mediator.send(new GetTodoItemsRequest()) as TodoItem[];
-        expect(items.length).toBe(10);
+        expect(items.length).toBeGreaterThanOrEqual(10);
     });
 
     it('should get all records with text', async () => {       

@@ -5,10 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Local File",
+            "name": "Quick Ruby Test",
             "type": "Ruby",
             "request": "launch",
-            "program": "${workspaceRoot}/server/src/typemaptest.rb"
+            "cwd": "${workspaceRoot}/server/src/serverapp",
+            "program": "${workspaceRoot}/server/src/serverapp/test/quick_test.rb"
         },
         {
             "type": "chrome",
@@ -19,7 +20,7 @@
         },
         {
             "type": "rdbg",
-            "name": "Debug current file with rdbg",
+            "name": "Debug Rails Server",
             "request": "launch",
             "script": "${workspaceRoot}/server/src/serverapp/bin/rails s",
             "useBundler": false,

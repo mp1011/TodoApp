@@ -1,13 +1,18 @@
 import TodoItem from '../models/todo-item';
-import { Service } from 'typedi';
+import { ContainerInstance, Service } from 'typedi';
 import PagedResult from '../models/paged-result';
 import PageInfo from '../models/page-info';
+import AppSettings from '../app-settings';
 
 @Service({ global: true })
 class ApiClient {
 
-    //todo, get from settings
-    hostName:string = "http:\\\\localhost:3000\\";
+  private readonly app_settings:AppSettings;
+
+  constructor(container:ContainerInstance ) {
+      this.app_settings = container.get(AppSettings);
+  }
+
 
     async getTodoItems(searchText?:string, pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>>
     {
@@ -35,7 +40,7 @@ class ApiClient {
 
     private async getJson<T>(url: string): Promise<T> {
 
-        const response = await fetch(`${this.hostName}${url}`);
+        const response = await fetch(`${this.app_settings.host_name}${url}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch data from ${url}`);
         }
@@ -45,7 +50,7 @@ class ApiClient {
 
     private async postJson<T>(url:string, data:T) : Promise<T> {
 
-        const response = await fetch(`${this.hostName}${url}`, {
+        const response = await fetch(`${this.app_settings.host_name}${url}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

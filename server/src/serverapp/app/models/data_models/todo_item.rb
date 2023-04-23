@@ -1,12 +1,14 @@
 require_relative '../concerns/base_model'
+require_relative '../concerns/user_owned'
 
 class TodoItem
     include BaseModel
+    include UserOwned
 
     attr_accessor :id, :text
 
     def self.from_json(json)
-        TodoItem.new(json["id"], json["text"])    
+        TodoItem.new(json['id'], json['text'], json['created_by'])
     end 
 
     def self.from_json_array(json_array)
@@ -20,9 +22,10 @@ class TodoItem
         item 
     end 
 
-    def initialize(id=0, text='')
+    def initialize(id = 0, text = '', created_by = 0)
         super(id)
         @text=text 
+        @created_by = created_by
     end 
 
 end 

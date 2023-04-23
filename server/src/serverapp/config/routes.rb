@@ -15,4 +15,8 @@ Rails.application.routes.draw do
   Rails.application.routes.draw do
     post '/todoitem', to: 'todo_item#post'
   end
+
+  Rails.application.routes.draw do
+    get '/auth/google_oauth2/callback', to: 'sessions#create'
+  end
 end

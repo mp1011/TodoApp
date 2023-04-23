@@ -42,3 +42,4 @@ server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/d1/0a0b6a66b22e20
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/d3/7001dce08ec51e
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/f3/fd729406cc6319
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/f4/042bf27ecb122f
+server/src/serverapp/load_settings.rb
