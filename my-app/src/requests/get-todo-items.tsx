@@ -4,7 +4,11 @@ import { Service, ContainerInstance } from 'typedi';
 import IRequestHandler from './request';
 
 class GetTodoItemsRequest {
+    searchText?: string;
 
+    constructor(searchText?: string ) {
+        this.searchText = searchText;
+    }
 }
 
 @Service("GetTodoItemsRequestHandler")
@@ -18,7 +22,7 @@ class GetTodoItemsRequestHandler implements IRequestHandler<GetTodoItemsRequest,
 
     async handle(request:GetTodoItemsRequest) : Promise<TodoItem[]>
     {
-        return await this.dataAccess.getTodoItems();
+        return await this.dataAccess.getTodoItems(request.searchText);
     }
 }
 

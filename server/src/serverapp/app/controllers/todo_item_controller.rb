@@ -4,7 +4,8 @@ require_relative '../features/get_todo_items'
 require_relative '../features/save_todo_item'
 require_relative '../models/page_info'
 
-class TodoItemController < ApplicationController    
+class TodoItemController < ApplicationController
+    protect_from_forgery with: :null_session
     
     def get
         page_number = params[:pageNumber].to_i || 0
@@ -17,8 +18,8 @@ class TodoItemController < ApplicationController
 
     def post 
          todo_item = TodoItem.from_json(JSON.parse(request.body.read))
-         SaveTodoItem.new(todo_item).handle
-         render plain: todo_item.text
+         todo_item = SaveTodoItem.new(todo_item).handle
+         render json: todo_item
     end 
 
 end

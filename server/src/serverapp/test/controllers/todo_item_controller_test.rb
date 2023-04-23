@@ -32,6 +32,7 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
        
         post '/todoitem', params: { text: item_text }, as: :json
         assert_response :success
+        puts "post response = #{response.body}"
         
         get '/todoitem', params: { search: item_text}
         new_array = PagedResult.from_json(JSON.parse(response.body), TodoItem)

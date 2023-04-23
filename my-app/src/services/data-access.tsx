@@ -13,24 +13,24 @@ class DataAccess {
         this.api_client = container.get(ApiClient);
     }
 
-    insertTodoItem(item:TodoItem) : TodoItem {
-        return item;
+    async saveTodoItem(item:TodoItem) : Promise<TodoItem> {
+        return await this.api_client.saveTodoItem(item);
     }
 
-    async getTodoItems() : Promise<TodoItem[]> {
+    async getTodoItems(searchText?:string) : Promise<TodoItem[]> {
 
         var result : TodoItem[];
         result=[];
 
         var pageInfo = new PageInfo(0,5);
-        var pageResult:PagedResult<TodoItem> = await this.api_client.getTodoItems(pageInfo);
+        var pageResult:PagedResult<TodoItem> = await this.api_client.getTodoItems(searchText, pageInfo);
 
         result.push(...pageResult.items);
 
         while(result.length < pageResult.total_items)
         {
             pageInfo = new PageInfo(pageInfo.page_number+1,5);
-            pageResult = await this.api_client.getTodoItems(pageInfo);
+            pageResult = await this.api_client.getTodoItems(searchText, pageInfo);
             result.push(...pageResult.items);
         }
 

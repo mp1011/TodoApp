@@ -22,5 +22,6 @@ class DataContext
     def save_todo_item(item)
         db_item = TodoItemDbRecord.new(text: item.text)
         db_item.save
+        db_item
     end
 end
