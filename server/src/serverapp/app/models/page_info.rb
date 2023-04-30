@@ -17,5 +17,12 @@ class PageInfo
     def self.from_json(json)
         PageInfo.new(json['page_number'].to_i, json['page_size'].to_i)
     end
+
+    def self.from_request(request_params)
+        page_number = request_params[:page_number].to_i || 0
+        page_size = request_params[:page_size].to_i || 5
+      
+        PageInfo.new(page_number, page_size)
+    end 
     
 end

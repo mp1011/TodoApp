@@ -13,14 +13,9 @@ class TodoItemController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :before_request, except: [:new, :create]
 
-
     def get
-        page_number = params[:pageNumber].to_i || 0
-        page_size = params[:pageSize].to_i || 5
-        search = params[:search]
-
-        page_info = PageInfo.new(page_number, page_size)
-        render json: GetTodoItems.new(search, page_info, session).handle
+        page_info = PageInfo.from_request(params) 
+        render json: GetTodoItems.new(params[:search], page_info, session).handle
     end
 
     def post
@@ -28,7 +23,5 @@ class TodoItemController < ApplicationController
          todo_item = SaveTodoItem.new(todo_item, session).handle
          render json: todo_item
     end 
-
-    
 
 end

@@ -25,6 +25,19 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
     end 
 
+    test 'get Todo Item by page' do 
+
+        register_container_mockauth
+
+        get '/todoitem', params: { page_number:2, page_size:2}
+        paged_result = PagedResult.from_json(JSON.parse(response.body), TodoItem)
+
+        puts response.body
+        assert_operator paged_result.total_items, :>=, 14
+        assert_equal 2, paged_result.items.length
+                 
+    end 
+
     test 'insert new Todo Item' do
         
         register_container_mockauth

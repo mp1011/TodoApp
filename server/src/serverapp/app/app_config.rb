@@ -4,7 +4,7 @@ class AppConfig
     include Singleton
     
     def initialize
-        puts Dir.pwd
+        puts "Loading config from #{Dir.pwd}"
         @config = YAML.load_file('config.yaml')
     end 
     
