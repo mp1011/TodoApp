@@ -29,7 +29,7 @@ server/src/serverapp/tmp/pids/server.pid
 server/src/serverapp/tmp/cache/bootsnap/load-path-cache
 server/src/serverapp/tmp/cache/bootsnap/
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/f4/042bf27ecb122f
-/tmp/*
+*/tmp/*
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/*
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/08/b7d404051e720f
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/15/59e39c33446ce3
@@ -43,3 +43,4 @@ server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/d3/7001dce08ec51e
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/f3/fd729406cc6319
 server/src/serverapp/tmp/cache/bootsnap/compile-cache-iseq/f4/042bf27ecb122f
 server/src/serverapp/load_settings.rb
+server/src/serverapp/tmp/*

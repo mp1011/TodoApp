@@ -7,7 +7,7 @@ class User
 
     def initialize(id = 0, name = '', email = '')
         super(id)
-        @name=name 
+        @name = name 
         @email = email
     end 
 

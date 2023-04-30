@@ -1,9 +1,15 @@
 Layout/IndentationWidth:
-  Width: 4
+  Enabled: false
 
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/Documentation:
+  Enabled: false
+
+Layout/TrailingWhiteSpace:
+  Enabled: false
+  
 GlobalVars:
   AllowedVariables:
     - $container
