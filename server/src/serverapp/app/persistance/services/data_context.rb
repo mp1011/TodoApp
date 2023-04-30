@@ -16,8 +16,7 @@ ActiveRecord::Base.include(ActiveRecordHelpers)
 
 # provides basic access and save operations for all tables
 class DataContext
-    include $injector['auth_service']
-
+    
     def todo_items
         TodoItemDbRecord.where('1=1')
     end
@@ -26,10 +25,8 @@ class DataContext
         UserDbRecord.where('1=1')
     end 
 
-    def save_todo_item(item)
-        #can this be more general?
-        db_item = TodoItemDbRecord.new(text: item.text)
-        db_item.createdBy = auth_service.logged_in_user.id
+    def save_todo_item(item, user_id)
+        db_item = TodoItemDbRecord.new(text: item.text, created_by: user_id)
         db_item.save
         db_item
     end

@@ -28,3 +28,19 @@ class AuthService
     end 
 
 end 
+
+class MockAuthService 
+
+    def get_current_user(session)
+        User.new(1,'System','System')
+    end 
+
+    def get_current_user_id(session)
+        1
+    end 
+
+    def check_login(session)
+        true
+    end 
+
+end 

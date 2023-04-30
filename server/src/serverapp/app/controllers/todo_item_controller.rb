@@ -25,7 +25,7 @@ class TodoItemController < ApplicationController
 
     def post
          todo_item = TodoItem.from_json(JSON.parse(request.body.read))
-         todo_item = SaveTodoItem.new(todo_item).handle
+         todo_item = SaveTodoItem.new(todo_item, session).handle
          render json: todo_item
     end 
 

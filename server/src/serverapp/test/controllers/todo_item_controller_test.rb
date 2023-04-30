@@ -1,10 +1,13 @@
 require 'test_helper'
 require_relative '../../app/models/data_models/todo_item'
 require_relative '../../app/models/paged_result'
+require_relative '../../app/helpers/di_container'
 
 class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
     test 'search Todo Item by text' do 
+
+        register_container_mockauth
 
         get '/todoitem', params: { search: 'new item' }
 
@@ -24,6 +27,8 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
     test 'insert new Todo Item' do
         
+        register_container_mockauth
+
         item_text = "UNIT TEST #{SecureRandom.uuid}"
 
         get '/todoitem', params: { search: item_text}

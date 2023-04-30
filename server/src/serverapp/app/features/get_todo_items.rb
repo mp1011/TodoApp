@@ -26,7 +26,7 @@ class GetTodoItemsHandler
 
         query = data_context
             .todo_items
-            .where('createdBy = ?', auth_service.get_current_user_id(request.session))
+            .where('created_by = ?', auth_service.get_current_user_id(request.session))
 
         if !request.search_text.nil? && !request.search_text.empty?
             query = query.where('text like ?', "%#{request.search_text}%")
