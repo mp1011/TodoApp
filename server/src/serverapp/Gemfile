@@ -27,7 +27,13 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem "omniauth-google-oauth2"
+gem 'omniauth'
+gem 'omniauth-google-oauth2', '1.1.1'
+gem 'omniauth-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
+#gem 'base64'
+gem 'googleauth'
 
 gem 'dotenv'
 # Use Redis adapter to run Action Cable in production
@@ -48,6 +54,7 @@ gem "bootsnap", require: false
 gem 'dry-container'
 
 gem 'dry-auto_inject'
+
 
 # Use Sass to process CSS
 # gem "sassc-rails"

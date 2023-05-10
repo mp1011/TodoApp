@@ -1,46 +1,63 @@
 require_relative '../models/data_models/user'
 require_relative '../features/get_user'
+require 'googleauth'
+require 'jwt'
 
 class AuthService 
 
-    def get_current_user(session)
+    def get_current_user(request)
+        auth_header = request.headers['Authorization']
+        get_user_from_header(auth_header) || get_user_from_session(request.session)
+    end 
+
+    def get_user_from_session(session)
 
         session_user = session[:user_id]
         if session_user.nil?
             nil 
         else 
-            GetUser.new(session_user).handle
+            GetUser.new(id: session_user).handle
         end 
 
     end 
 
-    def get_current_user_id(session)
-        user = get_current_user(session)
-        if user.nil?
-            0
-        else 
-            user.id 
-        end 
-    end 
+    def get_user_from_header(auth_header)
 
-    def check_login(session)
-        get_current_user(session).present?
+        type, token = auth_header.split " " unless auth_header.nil? 
+
+        return nil if token.nil? || token.nil? || type != "Bearer"
+
+        #todo, this code should run only in dev
+        return User.new(1,'System','System') if token = 'test123abc'
+
+        begin    
+            client_id = ENV['GOOGLE_CLIENT_ID']
+            key_source = Google::Auth::IDTokens::JwkHttpKeySource.new(ENV['GOOGLE_KEY_SOURCE'])          
+            unverified_token = JWT.decode token, nil, false
+
+            options = { algorithms: unverified_token[1]["alg"]}
+            
+            validator = Google::Auth::IDTokens::Verifier.new(key_source: key_source, aud: client_id, azp: client_id, iss: "https://accounts.google.com")
+            payload = validator.verify(token)
+            GetUser.new(email: payload["email"]).handle
+        rescue => e
+            puts e
+            return nil 
+        end
     end 
 
 end 
 
 class MockAuthService 
-
-    def get_current_user(session)
+    def get_current_user(request)
         User.new(1,'System','System')
     end 
 
-    def get_current_user_id(session)
-        1
+    def get_user_from_session(session)
+        User.new(1,'System','System')
     end 
 
-    def check_login(session)
-        true
+    def get_user_from_header(auth_header)
+        User.new(1,'System','System')
     end 
-
 end 

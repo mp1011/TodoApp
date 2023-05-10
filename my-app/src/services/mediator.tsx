@@ -9,14 +9,17 @@ class Mediator {
         let inputAny:any = input;
         let handlerName = `${inputAny.constructor.name}Handler`;
 
+        let handler = {} as IRequestHandler<TIn,TOut>;
+        
         try {
-            let handler : IRequestHandler<TIn,TOut> = Container.get(handlerName);
-            return await handler.handle(input);
+            handler = Container.get(handlerName);           
         } 
         catch(e) {
             console.error(`Cannot create instance of type ${handlerName}`);  
             throw(e);          
         }
+
+        return await handler.handle(input);
     }
   }
 

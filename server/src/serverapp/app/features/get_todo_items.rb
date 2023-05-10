@@ -4,13 +4,12 @@ require_relative '../models/paged_result'
 require_relative '../services/auth_service'
 
 class GetTodoItems
+    attr_reader :search_text, :page_info, :current_user
 
-    attr_reader :search_text, :page_info, :session
-
-    def initialize(search_text, page_info, session)
+    def initialize(search_text, page_info, current_user)
         @search_text = search_text
         @page_info = page_info
-        @session = session 
+        @current_user = current_user 
     end 
 
     def handle
@@ -21,13 +20,12 @@ end
 
 class GetTodoItemsHandler
     include $injector['data_context']
-    include $injector['auth_service']
 
     def handle(request)
 
         query = data_context
             .todo_items
-            .where('created_by = ?', auth_service.get_current_user_id(request.session))
+            .where('created_by = ?', request.current_user.id)
 
         if !request.search_text.nil? && !request.search_text.empty?
             query = query.where('text like ?', "%#{request.search_text}%")

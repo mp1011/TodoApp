@@ -2,10 +2,11 @@ require_relative '../helpers/di_container'
 require_relative '../models/data_models/user'
 
 class GetUser
-    attr_reader :id
+    attr_reader :id, :email 
 
-    def initialize(id)
+    def initialize(id:0, email:'')
         @id = id
+        @email=email
     end 
 
     def handle
@@ -19,10 +20,17 @@ class GetUserHandler
 
     def handle(request)
 
-        db_user = data_context
-            .users
-            .where('id=?', request.id)
-            .first 
+        if request.email.present?
+            db_user = data_context
+                .users
+                .where('email=?', request.email)
+                .first
+        else 
+            db_user = data_context
+                .users
+                .where('id=?', request.id)
+                .first
+        end 
 
         if db_user.nil?
             nil 

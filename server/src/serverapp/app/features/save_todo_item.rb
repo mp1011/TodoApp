@@ -3,11 +3,11 @@ require_relative '../models/data_models/todo_item'
 require_relative '../services/auth_service'
 
 class SaveTodoItem
-    attr_reader :item, :session 
+    attr_reader :item, :current_user 
 
-    def initialize(item, session)
+    def initialize(item, current_user)
         @item = item
-        @session = session
+        @current_user = current_user
     end 
 
     def handle()
@@ -18,9 +18,8 @@ end
 
 class SaveTodoItemHandler
     include $injector['data_context']
-    include $injector['auth_service']
 
     def handle(request)
-        data_context.save_todo_item(request.item, auth_service.get_current_user_id(request.session))
+        data_context.save_todo_item(request.item, request.current_user.id)
     end
 end

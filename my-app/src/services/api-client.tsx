@@ -12,9 +12,7 @@ class ApiClient {
   constructor(container:ContainerInstance ) {
       this.app_settings = container.get(AppSettings);
   }
-
-
-    async getTodoItems(searchText?:string, pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>>
+  async getTodoItems(searchText?:string, pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>>
     {
         var query = "todoitem";
 
@@ -40,7 +38,13 @@ class ApiClient {
 
     private async getJson<T>(url: string): Promise<T> {
 
-        const response = await fetch(`${this.app_settings.host_name}${url}`);
+        const response = await fetch(`${this.app_settings.host_name}${url}`, {
+          method: 'GET',
+          headers: {
+            'Authorization' : 'Bearer test123abc'
+          }
+        });
+
         if (!response.ok) {
           throw new Error(`Failed to fetch data from ${url}`);
         }
@@ -53,7 +57,8 @@ class ApiClient {
         const response = await fetch(`${this.app_settings.host_name}${url}`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization' : 'Bearer test123abc'
             },
             body: JSON.stringify(data)
           });
