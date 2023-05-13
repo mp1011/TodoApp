@@ -4,16 +4,15 @@ import Session from '../services/session';
 import { Container } from 'typedi';
 import Mediator from '../services/mediator';
 import { LoginResponseCommand } from '../requests/login-reponse-command';
-import LoginInfo from '../models/login-info';
 
-function LoginComponent() {
+function Login() {
     const session = Container.get(Session);
 
-    const onLoginClick = (event: MouseEvent<HTMLInputElement>) => {  
+    const onLoginClick = (event: MouseEvent<HTMLButtonElement>) => {  
         window.location.href = `http://localhost:3000/login?return=${window.location.href}`;
     };
 
-    const onLogoutClick = (event: MouseEvent<HTMLInputElement>) => {          
+    const onLogoutClick = (event: MouseEvent<HTMLButtonElement>) => {          
 
         session.currentUser = null;
         session.token = null;
@@ -28,7 +27,7 @@ function LoginComponent() {
 
             if(!session.loggedIn)
             {
-                const loginInfo : LoginInfo = await Mediator.send(new LoginResponseCommand(window.location.search));
+                await Mediator.send(new LoginResponseCommand(window.location.search));
                 const queryString = new URLSearchParams(window.location.search);
                 if(queryString.get('token'))
                 {
@@ -43,23 +42,26 @@ function LoginComponent() {
 
     if(session.loggedIn) {
         return ( 
-        <div>
-            <p>Welcome, {session.currentUser?.name}</p>
-            <input  type='button'
-                        value='Log Out'
-                        onClick={onLogoutClick} />  
-        </div>)
+
+            <span className="badge bg-info m-0 ps-2 pe-0 py-0">
+                <div className="d-flex align-items-center">
+                    <p className="fs-6 p-0 m-0">Welcome, {session.currentUser?.name}!</p>
+                    <button type="button"
+                                className="btn btn-light m-2"
+                                onClick={onLogoutClick}>Log out</button>
+                </div>
+            </span>)
     }
     else {
         return (
             <div>
-                <input  type='button'
-                        value='Log In'
-                        onClick={onLoginClick} />           
+                <button type="button"
+                        className="btn btn-light"
+                        onClick={onLoginClick}>Log in</button>
             </div>     
             );
     }
 }
 
 
-export default LoginComponent;
+export default Login;

@@ -2,7 +2,7 @@ import React from 'react';
 import "reflect-metadata";
 import './App.css';
 import TodoInput from './components/todo-input'; 
-import Login from './components/login';
+import TopNav from './components/top-nav';
 import { AddTodoItemRequest } from './requests/add-todo-item';
 import { GetTodoItemsRequest } from './requests/get-todo-items';
 import { useState } from 'react';
@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        <Login />
+        <TopNav />
         
         <TodoInput onTextEntered={onTodoTextEntered} />
         <p>There are {items.length} items</p>
