@@ -24,7 +24,7 @@ class AuthService
         return nil if token.nil? || token.nil? || type != "Bearer"
 
         unless Rails.env.production? 
-            return User.new(id:1, name:'System', email:'System') if token = 'test123abc'
+            return User.new(id:1, name:'System', email:'System') if token == 'test123abc'
         end 
 
         begin    

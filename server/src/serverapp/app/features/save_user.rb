@@ -22,12 +22,6 @@ class SaveUserHandler
             .where('email=?', request.email)
             .first 
 
-        if existing_user.nil?
-            saved_user = data_context.save_user(User.new(0, request.name, request.email))
-            User.map_from(save_user)
-        else 
-            User.map_from(existing_user)
-        end 
-
+        existing_user || data_context.save_user(User.new(0, request.name, request.email))            
     end
 end

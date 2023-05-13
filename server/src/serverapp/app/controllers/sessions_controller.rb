@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
 
         if token.present?
             redirect = params[:return] || session[:return_to];
+            redirect = "/" if redirect.include?("login")
             redirect = redirect.set_query_value 'token', token 
             redirect_to redirect
         else 
@@ -27,6 +28,6 @@ class SessionsController < ApplicationController
     def log_out 
         session[:user_id] = nil
         session[:id_token] = nil 
-        redirect_to ""
+        redirect_to params[:return] || ""
     end 
 end

@@ -1,5 +1,4 @@
 module AuthenticatedController 
-    
     attr_reader :current_user;
 
     def before_request     

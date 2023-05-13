@@ -2,7 +2,6 @@ import { Container } from 'typedi';
 import IRequestHandler from '../requests/request';
 
 class Mediator {
-    static myStaticProperty: string = "Hello, world!";
     
     static async send<TIn,TOut>(input:TIn) : Promise<TOut> {          
         
