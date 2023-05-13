@@ -5,7 +5,11 @@ function TodoComponent(props: { item:TodoItem}) {
   
     return (
 
-        <span>{props.item.text}</span>
+        <div className="card my-2">
+            <div className="card-body">
+                <p className="card-text text-dark text-start">{props.item.text}</p>
+            </div>
+        </div>
            
     );
 }

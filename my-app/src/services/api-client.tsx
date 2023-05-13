@@ -45,21 +45,24 @@ class ApiClient {
         return await this.postJson<TodoItem>("todoitem", todoItem);
     }
 
-    private async getJson<T>(url: string): Promise<T> {
-
-        console.log(`Fetch from ${this.app_settings.host_name}${url}`);
-        console.log(`auth token = ${this.session.token}`);
-
-        var headers = {} 
-        if(this.session.token) {
-          headers = {
-            'Authorization' : `Bearer ${this.session.token}`
-          }
+    private getHeaders() : HeadersInit
+    {
+      if(this.session.token) 
+        return { 
+          'Authorization' : `Bearer ${this.session.token}`,
+          'Content-Type': 'application/json'       
         }
+      else 
+        return {
+          'Content-Type': 'application/json'
+         };
+    }
+
+    private async getJson<T>(url: string): Promise<T> {
 
         const response = await fetch(`${this.app_settings.host_name}${url}`, {
           method: 'GET',
-          headers: headers
+          headers: this.getHeaders()
         });
 
         if (!response.ok) {
@@ -74,10 +77,7 @@ class ApiClient {
 
         const response = await fetch(`${this.app_settings.host_name}${url}`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization' : 'Bearer test123abc'
-            },
+            headers: this.getHeaders(),
             body: JSON.stringify(data)
           });
 
