@@ -1,6 +1,3 @@
-require_relative '../helpers/di_container'
-require_relative '../models/data_models/user'
-
 class GetUser
     attr_reader :id, :email 
 
@@ -35,7 +32,7 @@ class GetUserHandler
         if db_user.nil?
             nil 
         else 
-            User.map_from(db_user)
+            db_user
         end 
 
     end

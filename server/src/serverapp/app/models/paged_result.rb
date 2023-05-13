@@ -1,6 +1,3 @@
-require_relative './concerns/json_loadable'
-require_relative './page_info'
-
 class PagedResult
     include JsonLoadable
     attr_reader :total_items, :page_info, :items

@@ -1,8 +1,3 @@
-require_relative '../helpers/di_container'
-require_relative '../models/data_models/todo_item'
-require_relative '../models/paged_result'
-require_relative '../services/auth_service'
-
 class GetTodoItems
     attr_reader :search_text, :page_info, :current_user
 
@@ -35,7 +30,6 @@ class GetTodoItemsHandler
 
         paged_query = query
            .get_page(request.page_info)
-           .map { |x| TodoItem.map_from(x)}
 
         PagedResult.new(paged_query, request.page_info, total_items)
     end

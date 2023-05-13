@@ -1,6 +1,3 @@
-require_relative '../../services/auth_service'
-require_relative '../../helpers/di_container'
-
 module AuthenticatedController 
     
     attr_reader :current_user;

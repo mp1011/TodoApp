@@ -1,6 +1,3 @@
-require_relative '../helpers/di_container'
-require_relative '../models/data_models/user'
-
 class SaveUser
     attr_reader :name, :email
 

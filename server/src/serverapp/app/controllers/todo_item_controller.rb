@@ -1,11 +1,3 @@
-require_relative '../helpers/di_container'
-require_relative '../models/data_models/todo_item'
-require_relative '../features/get_todo_items'
-require_relative '../features/save_todo_item'
-require_relative '../models/page_info'
-require_relative '../services/auth_service'
-require_relative './concerns/authenticated_controller'
-
 class TodoItemController < ApplicationController
     include $injector['auth_service']
     include AuthenticatedController

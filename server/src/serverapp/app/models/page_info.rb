@@ -1,4 +1,3 @@
-require_relative './concerns/json_loadable'
 # Stores a 0-based page number and number of items per page
 class PageInfo
     include JsonLoadable

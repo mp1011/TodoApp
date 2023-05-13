@@ -1,7 +1,3 @@
-require_relative '../models/data_models/user'
-require_relative '../features/get_user'
-require 'googleauth'
-require 'jwt'
 
 class AuthService 
 
@@ -27,8 +23,9 @@ class AuthService
 
         return nil if token.nil? || token.nil? || type != "Bearer"
 
-        #todo, this code should run only in dev
-        return User.new(1,'System','System') if token = 'test123abc'
+        unless Rails.env.production? 
+            return User.new(id:1, name:'System', email:'System') if token = 'test123abc'
+        end 
 
         begin    
             client_id = ENV['GOOGLE_CLIENT_ID']
@@ -50,14 +47,14 @@ end
 
 class MockAuthService 
     def get_current_user(request)
-        User.new(1,'System','System')
+        User.new(id:1, name:'System', email:'System')
     end 
 
     def get_user_from_session(session)
-        User.new(1,'System','System')
+        User.new(id:1, name:'System', email:'System')
     end 
 
     def get_user_from_header(auth_header)
-        User.new(1,'System','System')
+        User.new(id:1, name:'System', email:'System')
     end 
 end 
