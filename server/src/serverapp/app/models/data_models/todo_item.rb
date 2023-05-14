@@ -4,7 +4,7 @@ class TodoItem < ActiveRecord::Base
     include JsonLoadable
 
     def self.from_json(json)
-        TodoItem.new(id:json['id'], text:json['text'], created_by:json['created_by'])
+        TodoItem.new(id:json['id'], text:json['text'], created_by:json['created_by'], sort_order:json['sort_order'])
     end 
 
     def self.from_json_array(json_array)

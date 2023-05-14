@@ -13,7 +13,16 @@ class DataContext
     end 
 
     def save_todo_item(item, user_id)        
-        db_item = TodoItem.new(text: item.text, created_by: user_id)
+
+        last_item = todo_items
+                        .where("created_by = ?", user_id)
+                        .order("sort_order desc")
+                        .first 
+
+        new_order = 1 if last_item.nil? 
+        new_order = last_item.sort_order + 1 if last_item.present?
+
+        db_item = TodoItem.new(text: item.text, created_by: user_id, sort_order: new_order)
        
         db_item.save
         db_item

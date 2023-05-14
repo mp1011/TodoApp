@@ -2,6 +2,10 @@ class PagedResult
     include JsonLoadable
     attr_reader :total_items, :page_info, :items
 
+    def total_pages 
+        @total_items / @page_info.page_size
+    end 
+
     def initialize(items, page_info, total_items)
         @items = items 
         @page_info = page_info

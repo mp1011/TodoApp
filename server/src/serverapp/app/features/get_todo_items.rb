@@ -26,6 +26,8 @@ class GetTodoItemsHandler
             query = query.where('text like ?', "%#{request.search_text}%")
         end
 
+        query = query.order("sort_order asc")
+        
         total_items = query.count
 
         paged_query = query
