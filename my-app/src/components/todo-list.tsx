@@ -1,16 +1,26 @@
 import React from 'react';
 import TodoItem from '../models/todo-item';
 import TodoComponent from './todo-component';
+import TodoDropTarget from './todo-drop-target';
+import { DndProvider, useDragDropManager } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function TodoList(props: { items:TodoItem[]}) {
   
-    return (
-
-        <div className="d-flex flex-column">
-          {props.items.map((item) => (        
+    var place = 1
+    const list = props.items.map((item) => (                
+        <div>   
+            <TodoDropTarget order={place++}/>                                    
             <TodoComponent key={item.text} item={item} /> 
-          ))}
-        </div>           
+        </div> ));
+
+    return (
+        <DndProvider backend={HTML5Backend}>
+            <div className="d-flex flex-column">   
+                {list}
+                <TodoDropTarget order={place++}/>
+            </div>  
+        </DndProvider>                 
     );
 }
 

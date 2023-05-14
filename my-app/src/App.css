@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.drop-target 
+{
+    height: 20px;
+    border: dotted 1px white;
+}
