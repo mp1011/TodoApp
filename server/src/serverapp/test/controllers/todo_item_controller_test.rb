@@ -73,4 +73,20 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
     end 
 
+    test 'can reorder todo item' do 
+        register_container_mockauth
+
+        get '/todoitem', params: { }
+        initial_response = PagedResult.from_json(JSON.parse(response.body), TodoItem)
+
+        item_to_change = initial_response.items[3];
+
+        #reorder
+        put "/todoitem/#{item_to_change.id}/changesort", params: { new_sort_order: 1 }, as: :json
+     
+        get '/todoitem', params: { }
+        new_response = PagedResult.from_json(JSON.parse(response.body), TodoItem)
+        assert_equal item_to_change.id, new_response.items[0].id        
+    end 
+
 end

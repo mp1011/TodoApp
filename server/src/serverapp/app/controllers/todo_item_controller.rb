@@ -16,4 +16,11 @@ class TodoItemController < ApplicationController
          render json: todo_item
     end 
 
+    def change_sort 
+        item = TodoItem.find(params[:id])
+        new_sort = params[:new_sort_order].to_i
+        item = ChangeTodoSort.new(item, new_sort, @current_user).handle
+        render json: item
+    end 
+
 end
