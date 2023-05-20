@@ -58,7 +58,7 @@ class ApiClient {
          };
     }
 
-    private async getJson<T>(url: string): Promise<T> {
+    public async getJson<T>(url: string): Promise<T> {
 
         const response = await fetch(`${this.app_settings.host_name}${url}`, {
           method: 'GET',
@@ -73,7 +73,7 @@ class ApiClient {
         return json as T;
     }
 
-    private async postJson<T>(url:string, data:T) : Promise<T> {
+    public async postJson<T>(url:string, data:T) : Promise<T> {
 
         const response = await fetch(`${this.app_settings.host_name}${url}`, {
             method: 'POST',
@@ -88,6 +88,21 @@ class ApiClient {
           const json = await response.json();
           return json as T;
     }
+
+    public async putJson<TResult>(url:string) : Promise<TResult> {
+
+      const response = await fetch(`${this.app_settings.host_name}${url}`, {
+          method: 'PUT',
+          headers: this.getHeaders()
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to post data to ${url}`);
+        }
+
+        const json = await response.json();
+        return json as TResult;
+  }
 }
 
 export default ApiClient

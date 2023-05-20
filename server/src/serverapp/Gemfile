@@ -88,4 +88,6 @@ group :test do
   gem "ruby-debug-ide"
   gem "debase"
   gem "rspec-core"
+  gem "pry"
+  gem "pry-byebug"
 end

@@ -3,6 +3,8 @@ import { useState } from 'react';
 import TodoItem from '../models/todo-item';
 import { useDrop } from 'react-dnd';
 import { useDragDropManager } from 'react-dnd'
+import Mediator from '../services/mediator';
+import { ReorderTodoItemCommand } from '../requests/reorder-todo-item-command';
 
 function TodoDropTarget(props: { order:number}) {
 
@@ -11,8 +13,9 @@ function TodoDropTarget(props: { order:number}) {
 
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: 'todo-item',
-        drop: (item:TodoItem, monitor:any) => {
-            alert(item.text);
+        drop: async (item:TodoItem, monitor:any) => {
+            const sorted = await Mediator.send(new ReorderTodoItemCommand(item.id, props.order));
+            console.log(sorted);
         },
         collect: (monitor) => ({
           isOver: monitor.isOver(),

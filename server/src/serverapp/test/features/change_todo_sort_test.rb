@@ -30,4 +30,20 @@ class ChangeTodoSortTest < ActiveSupport::TestCase
 
     end 
 
+    test  'returns all items that have changed order' do
+        
+        current_user = User.where("id = 1").first
+        items = TodoItem.where('created_by = 1').map{|x| x.as_json}        
+        item = TodoItem.where('created_by = 1 and sort_order = 3').first
+     
+        changed_items = ChangeTodoSort.new(item, 1, current_user).handle()
+        assert_operator changed_items.length, :>=, 3
+
+        changed_items.each do |x|
+            original = items.find { |i| i['id'] == x.id }
+            assert_not_equal original['sort_order'], x.sort_order
+        end 
+
+    end 
+
 end 

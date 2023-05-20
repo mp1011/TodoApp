@@ -26,23 +26,32 @@ class ChangeTodoSortHandler
         items_to_reorder = data_context.todo_items
             .where("created_by = ? and sort_order >= ? and id <> ?", request.current_user, request.new_sort, request.item.id)
             .order("sort_order asc")
-       
+        
+        changed_items = []
+        
         ActiveRecord::Base.transaction do
             
+           
+            changed_items << item 
+
             item.sort_order = request.new_sort
             item.save
 
             next_sort = request.new_sort + 1
             items_to_reorder.each do |x|
-                x.sort_order = next_sort
 
-                x.save
+                if x.sort_order != next_sort
+                    changed_items << x
+                    x.sort_order = next_sort
+                    x.save                
+                end 
+
                 next_sort += 1
             end 
 
         end 
 
-        item 
+        changed_items 
 
     end
 end

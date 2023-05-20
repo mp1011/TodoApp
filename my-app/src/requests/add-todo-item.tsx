@@ -23,7 +23,7 @@ class AddTodoItemRequestHandler implements IRequestHandler<AddTodoItemRequest, T
     async handle(request:AddTodoItemRequest) : Promise<TodoItem>
     {
         return await this.dataAccess
-            .saveTodoItem(new TodoItem(request.text));
+            .saveTodoItem(new TodoItem(0,request.text));
     }
 }
 

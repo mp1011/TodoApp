@@ -9,9 +9,9 @@ function TodoList(props: { items:TodoItem[]}) {
   
     var place = 1
     const list = props.items.map((item) => (                
-        <div>   
+        <div key={item.id}>   
             <TodoDropTarget order={place++}/>                                    
-            <TodoComponent key={item.text} item={item} /> 
+            <TodoComponent item={item} /> 
         </div> ));
 
     return (
