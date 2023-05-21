@@ -34,4 +34,18 @@ class DataContext
         db_user
     end 
 
+    def update_record(klass, id, properties, current_user_id)
+        current_record = klass.find(id) 
+
+        raise "Record not found" if current_record.nil?
+        raise "This record belongs to another user" if current_record.created_by != current_user_id
+
+        properties.each do |key,value|            
+            current_record[key] = value if current_record.respond_to?(:key)
+        end 
+
+        current_record.save
+        current_record    
+    end 
+
 end

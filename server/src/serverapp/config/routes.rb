@@ -20,6 +20,13 @@ Rails.application.routes.draw do
     put '/todoitem/:id/changesort', to: 'todo_item#change_sort'
   end
 
+  Rails.application.routes.draw do
+    get '/todoitem/:id', to: 'todo_item#get_by_id'
+  end
+
+  Rails.application.routes.draw do
+    put '/todoitem/:id', to: 'todo_item#update'
+  end
 
   Rails.application.routes.draw do
     get '/user', to: 'user#current'

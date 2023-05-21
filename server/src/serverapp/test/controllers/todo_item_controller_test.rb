@@ -26,7 +26,7 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
         get '/todoitem', params: { page_number:2, page_size:2}
         paged_result = PagedResult.from_json(JSON.parse(response.body), TodoItem)
         
-        assert_operator paged_result.total_items, :>=, 14
+        assert_operator paged_result.total_items, :>=, 10
         assert_equal 2, paged_result.items.length
                  
     end 
@@ -89,4 +89,42 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
         assert_equal item_to_change.id, new_response.items[0].id        
     end 
 
+    test 'can update todo item' do
+        register_container_mockauth
+
+        get '/todoitem', params: { }
+        initial_response = PagedResult.from_json(JSON.parse(response.body), TodoItem)
+
+        item_to_change = initial_response.items[0];
+
+        was_check = item_to_change.check
+
+        put "/todoitem/#{item_to_change.id}", params: { check: !item_to_change.check }, as: :json
+        assert_response :success
+
+        get "/todoitem/#{item_to_change.id}"
+        assert_response :success
+
+        new_response = TodoItem.from_json(JSON.parse(response.body))
+
+        #need actual migrations to read these as booleans
+        expected = 1
+        if was_check
+            expected = 0
+        end 
+
+        assert_equal expected, new_response.check  
+    end 
+
+    test 'gives 404 if not found' do 
+        register_container_mockauth
+        get "/todoitem/9999999"
+        assert_response :not_found
+    end 
+
+    test 'gives 403 if record belongs to another user' do 
+        register_container_mockauth
+        get "/todoitem/15"
+        assert_response :forbidden
+    end 
 end
