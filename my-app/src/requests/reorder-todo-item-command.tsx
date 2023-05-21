@@ -1,5 +1,5 @@
 import TodoItem from '../models/todo-item';
-import { ContainerInstance, Service } from 'typedi';
+import { Container, ContainerInstance, Service } from 'typedi';
 import IRequestHandler from './request';
 import ApiClient from '../services/api-client';
 
@@ -11,9 +11,15 @@ class ReorderTodoItemCommand {
         this.id = id;
         this.newOrder = newOrder;
     }
+
+    async handle() : Promise<TodoItem[]>
+    {
+        const handler = Container.get(ReorderTodoItemCommandHandler);
+        return await handler.handle(this);
+    }
 }
 
-@Service("ReorderTodoItemCommandHandler")
+@Service()
 class ReorderTodoItemCommandHandler implements IRequestHandler<ReorderTodoItemCommand, TodoItem[]>
 {
     private readonly api_client:ApiClient;

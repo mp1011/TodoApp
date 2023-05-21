@@ -1,6 +1,6 @@
 import LoginInfo from '../models/login-info';
 import ApiClient from '../services/api-client';
-import { Service, ContainerInstance } from 'typedi';
+import { Container, Service, ContainerInstance } from 'typedi';
 import IRequestHandler from './request';
 import Session from '../services/session';
 
@@ -10,9 +10,15 @@ class LoginResponseCommand {
     constructor(query: string ) {
         this.query = query;
     }
+
+    async handle() : Promise<LoginInfo>
+    {
+        const handler = Container.get(LoginResponseCommandHandler);
+        return await handler.handle(this);
+    }
 }
 
-@Service("LoginResponseCommandHandler")
+@Service()
 class LoginResponseCommandHandler implements IRequestHandler<LoginResponseCommand,LoginInfo>
 {
     private apiClient : ApiClient;

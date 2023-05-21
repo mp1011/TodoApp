@@ -1,5 +1,4 @@
 import ApiClient from '../services/api-client';
-import Mediator from '../services/mediator';
 import { GetTodoItemsRequest } from '../requests/get-todo-items';
 import TodoItem from '../models/todo-item';
 import PagedResult from '../models/paged-result';
@@ -20,12 +19,12 @@ describe('ApiClient', () => {
     
 describe('GetTodoItems', () => {
     it('should get all records', async () => {       
-        const items = await Mediator.send(new GetTodoItemsRequest()) as TodoItem[];
+        const items = await new GetTodoItemsRequest().handle() as TodoItem[];
         expect(items.length).toBeGreaterThanOrEqual(10);
     });
 
     it('should get all records with text', async () => {       
-        const items = await Mediator.send(new GetTodoItemsRequest("my new item")) as TodoItem[];
+        const items = await new GetTodoItemsRequest("my new item").handle() as TodoItem[];
         expect(items.length).toBe(2);
     })
 })
@@ -33,8 +32,8 @@ describe('GetTodoItems', () => {
 describe('AddTodoRequest', () => {
     it('should insert a record', async () => {  
         const text = `TEST_${Date.now()}`;
-        await Mediator.send(new AddTodoItemRequest(text));
-        const items = await Mediator.send(new GetTodoItemsRequest(text)) as TodoItem[];
+        await new AddTodoItemRequest(text).handle();
+        const items = await new GetTodoItemsRequest(text).handle() as TodoItem[];
         expect(items.length).toBe(1);
     })
 })

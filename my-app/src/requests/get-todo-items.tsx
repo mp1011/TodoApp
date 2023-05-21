@@ -1,6 +1,6 @@
 import TodoItem from '../models/todo-item';
 import DataAccess from '../services/data-access';
-import { Service, ContainerInstance } from 'typedi';
+import { Container, Service, ContainerInstance } from 'typedi';
 import IRequestHandler from './request';
 
 class GetTodoItemsRequest {
@@ -9,9 +9,15 @@ class GetTodoItemsRequest {
     constructor(searchText?: string ) {
         this.searchText = searchText;
     }
+
+    async handle() : Promise<TodoItem[]>
+    {
+        const handler = Container.get(GetTodoItemsRequestHandler);
+        return await handler.handle(this);
+    }
 }
 
-@Service("GetTodoItemsRequestHandler")
+@Service()
 class GetTodoItemsRequestHandler implements IRequestHandler<GetTodoItemsRequest,TodoItem[]>
 {
     private dataAccess : DataAccess;

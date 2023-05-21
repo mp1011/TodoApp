@@ -9,15 +9,25 @@ import { GetTodoItemsRequest } from './requests/get-todo-items';
 import { useState } from 'react';
 import TodoItem from './models/todo-item';
 import TodoList from './components/todo-list';
-import Mediator from './services/mediator';
 function App() {
  
   const [items, setItems] = useState<TodoItem[]>([]);
 
+  const onItemOrderChanged = (changedItems:TodoItem[]) => {
+
+    const changedItemIds = changedItems.map(x=>x.id);
+    
+    var sortedItems = items.filter(x=> !changedItemIds.includes(x.id))
+                 .concat(changedItems)
+                 .sort((a,b)=>a.sort_order-b.sort_order);
+
+    setItems(sortedItems);
+  }
+
   const onTodoTextEntered = async (text: string) => {
 
-      await Mediator.send(new AddTodoItemRequest(text));
-      setItems(await Mediator.send(new GetTodoItemsRequest()));     
+      await new AddTodoItemRequest(text).handle();
+      setItems(await new GetTodoItemsRequest().handle());     
   };
 
   useEffect(()=> {
@@ -26,7 +36,7 @@ function App() {
 
       if(!items || items.length === 0)
       {
-        setItems(await Mediator.send(new GetTodoItemsRequest()));             
+        setItems(await new GetTodoItemsRequest().handle())            
       }
     }
 
@@ -39,7 +49,7 @@ function App() {
 
         <TopNav />  
         <TodoInput onTextEntered={onTodoTextEntered} />      
-        <TodoList items={items} /> 
+        <TodoList items={items} itemOrderChanged={onItemOrderChanged} /> 
 
       </header>
     </div>

@@ -2,7 +2,6 @@ import React, { MouseEvent } from 'react';
 import { useEffect} from 'react';
 import Session from '../services/session';
 import { Container } from 'typedi';
-import Mediator from '../services/mediator';
 import { LoginResponseCommand } from '../requests/login-reponse-command';
 
 function Login() {
@@ -27,7 +26,7 @@ function Login() {
 
             if(!session.loggedIn)
             {
-                await Mediator.send(new LoginResponseCommand(window.location.search));
+                await new LoginResponseCommand(window.location.search).handle();
                 const queryString = new URLSearchParams(window.location.search);
                 if(queryString.get('token'))
                 {
