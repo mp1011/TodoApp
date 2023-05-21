@@ -19,7 +19,7 @@ class ReorderTodoItemCommand {
     }
 }
 
-@Service()
+@Service({ global: true })
 class ReorderTodoItemCommandHandler implements IRequestHandler<ReorderTodoItemCommand, TodoItem[]>
 {
     private readonly api_client:ApiClient;

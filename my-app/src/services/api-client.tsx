@@ -102,7 +102,24 @@ class ApiClient {
 
         const json = await response.json();
         return json as TResult;
-  }
+    }
+
+    public async putJsonWithBody<TResult,TData>(url:string, data:TData) : Promise<TResult> {
+
+      const response = await fetch(`${this.app_settings.host_name}${url}`, {
+          method: 'PUT',
+          headers: this.getHeaders(),
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to post data to ${url}`);
+        }
+
+        const json = await response.json();
+        return json as TResult;
+    }
+
 }
 
 export default ApiClient

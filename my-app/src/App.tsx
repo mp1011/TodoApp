@@ -24,6 +24,13 @@ function App() {
     setItems(sortedItems);
   }
 
+  const onItemChanged = (changedItem:TodoItem) => {
+    var updatedItems = items.filter(x=> changedItem.id != x.id);
+    updatedItems.push(changedItem);
+    updatedItems = updatedItems.sort((a,b)=>a.sort_order-b.sort_order);
+    setItems(updatedItems);
+  };
+
   const onTodoTextEntered = async (text: string) => {
 
       await new AddTodoItemRequest(text).handle();
@@ -49,7 +56,7 @@ function App() {
 
         <TopNav />  
         <TodoInput onTextEntered={onTodoTextEntered} />      
-        <TodoList items={items} itemOrderChanged={onItemOrderChanged} /> 
+        <TodoList items={items} itemOrderChanged={onItemOrderChanged} itemChanged={onItemChanged} /> 
 
       </header>
     </div>

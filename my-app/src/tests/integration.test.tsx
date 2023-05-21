@@ -1,10 +1,15 @@
 import ApiClient from '../services/api-client';
 import { GetTodoItemsRequest } from '../requests/get-todo-items';
+import { AddTodoItemRequest } from '../requests/add-todo-item';
+import { UpdateTodoItemCommand } from '../requests/update-todo-item-command';
 import TodoItem from '../models/todo-item';
 import PagedResult from '../models/paged-result';
 import 'reflect-metadata'; 
-import { AddTodoItemRequest } from '../requests/add-todo-item';
 import { Container } from 'typedi';
+import MockSession from './mocks/mock-session';
+import Session from '../services/session';
+
+Container.set(Session, new MockSession());
 
 describe('ApiClient', () => {
     describe('getTodoItems', () => {
@@ -24,7 +29,7 @@ describe('GetTodoItems', () => {
     });
 
     it('should get all records with text', async () => {       
-        const items = await new GetTodoItemsRequest("my new item").handle() as TodoItem[];
+        const items = await new GetTodoItemsRequest("Sample 2").handle() as TodoItem[];
         expect(items.length).toBe(2);
     })
 })
@@ -35,5 +40,17 @@ describe('AddTodoRequest', () => {
         await new AddTodoItemRequest(text).handle();
         const items = await new GetTodoItemsRequest(text).handle() as TodoItem[];
         expect(items.length).toBe(1);
+    })
+})
+
+describe('UpdateTodoItemCommand', () => {
+    it('should update checked field', async () => {  
+        
+        const result = await new UpdateTodoItemCommand(1, { check: true }).handle();
+        expect(result.check).toBe(true);
+
+        const result2 = await new UpdateTodoItemCommand(1, { check: false }).handle();
+        expect(result2.check).toBe(false);
+
     })
 })

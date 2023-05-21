@@ -17,7 +17,7 @@ class AddTodoItemRequest {
     }
 }
 
-@Service()
+@Service({ global: true })
 class AddTodoItemRequestHandler implements IRequestHandler<AddTodoItemRequest, TodoItem>
 {
     private dataAccess : DataAccess;

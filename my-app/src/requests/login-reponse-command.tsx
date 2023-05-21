@@ -18,7 +18,7 @@ class LoginResponseCommand {
     }
 }
 
-@Service()
+@Service({ global: true })
 class LoginResponseCommandHandler implements IRequestHandler<LoginResponseCommand,LoginInfo>
 {
     private apiClient : ApiClient;
