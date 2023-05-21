@@ -41,7 +41,7 @@ class DataContext
         raise "This record belongs to another user" if current_record.created_by != current_user_id
 
         properties.each do |key,value|            
-            current_record[key] = value if current_record.respond_to?(:key)
+            current_record[key] = value if current_record.respond_to?(key)
         end 
 
         current_record.save

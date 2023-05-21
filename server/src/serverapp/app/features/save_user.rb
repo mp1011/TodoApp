@@ -21,7 +21,7 @@ class SaveUserHandler
             .users
             .where('email=?', request.email)
             .first 
-
-        existing_user || data_context.save_user(User.new(0, request.name, request.email))            
+            
+        existing_user || data_context.save_user(User.new(name:request.name, email:request.email))            
     end
 end

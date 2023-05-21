@@ -6,7 +6,7 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
         register_container_mockauth
 
-        get '/todoitem', params: { search: 'new item' }
+        get '/todoitem', params: { search: 'Sample 11' }
 
         paged_result = PagedResult.from_json(JSON.parse(response.body), TodoItem)
         todo_items = paged_result.items
@@ -14,7 +14,7 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
         assert_not_empty todo_items
 
         todo_items.each do |x|
-            assert_includes x.text, 'new item'
+            assert_includes x.text, 'Sample 11'
         end
 
     end 
@@ -107,13 +107,7 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
         new_response = TodoItem.from_json(JSON.parse(response.body))
 
-        #need actual migrations to read these as booleans
-        expected = 1
-        if was_check
-            expected = 0
-        end 
-
-        assert_equal expected, new_response.check  
+        assert_equal !was_check, new_response.check  
     end 
 
     test 'gives 404 if not found' do 
@@ -124,7 +118,7 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
     test 'gives 403 if record belongs to another user' do 
         register_container_mockauth
-        get "/todoitem/15"
+        get "/todoitem/21"
         assert_response :forbidden
     end 
 end

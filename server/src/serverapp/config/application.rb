@@ -23,6 +23,8 @@ require_relative '../app/services/auth_service'
 
 require_relative '../app/controllers/concerns/authenticated_controller'
 
+require "pry"
+require "pry-byebug"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
