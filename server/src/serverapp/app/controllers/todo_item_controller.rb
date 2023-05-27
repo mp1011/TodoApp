@@ -12,6 +12,12 @@ class TodoItemController < ApplicationController
         render json: GetTodoItems.new(params[:search], page_info, @current_user).handle
     end
 
+    def get_children 
+        page_info = PageInfo.from_request(params) 
+        parent_id = params[:id].to_i
+        render json: GetTodoItems.new(params[:search], page_info, @current_user, parent_id).handle
+    end 
+
     def post
          todo_item = TodoItem.from_json(JSON.parse(request.body.read))
          todo_item = SaveTodoItem.new(todo_item, @current_user).handle

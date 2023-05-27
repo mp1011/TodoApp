@@ -9,6 +9,7 @@ function TodoInput(props: { onTextEntered: (text: string) => void }){
         if (event.key === 'Enter') {
           event.preventDefault();
           props.onTextEntered(text);
+          setText("");
         }
       };
 

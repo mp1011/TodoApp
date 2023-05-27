@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   end
 
   Rails.application.routes.draw do
+    get '/todoitem/:id/children', to: 'todo_item#get_children'
+  end
+
+  Rails.application.routes.draw do
     post '/todoitem', to: 'todo_item#post'
   end
 

@@ -43,7 +43,9 @@ function App() {
 
       if(!items || items.length === 0)
       {
-        setItems(await new GetTodoItemsRequest().handle())            
+        const items = await new GetTodoItemsRequest().handle();
+        if(items.length > 0)
+          setItems(items)            
       }
     }
 
@@ -55,9 +57,10 @@ function App() {
       <header className="App-header">
 
         <TopNav />  
-        <TodoInput onTextEntered={onTodoTextEntered} />      
-        <TodoList items={items} itemOrderChanged={onItemOrderChanged} itemChanged={onItemChanged} /> 
-
+        <div className="main-content">
+          <TodoInput onTextEntered={onTodoTextEntered} />      
+          <TodoList items={items} itemOrderChanged={onItemOrderChanged} itemChanged={onItemChanged} /> 
+        </div>
       </header>
     </div>
   );

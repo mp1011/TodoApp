@@ -31,6 +31,15 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
                  
     end 
 
+    test 'get children of item' do 
+        register_container_mockauth
+
+        get '/todoitem/22/children', params: { page_number:0, page_size:5}
+        paged_result = PagedResult.from_json(JSON.parse(response.body), TodoItem)
+        
+        assert_equal "Child", paged_result.items.first.text 
+    end 
+
     test 'insert new Todo Item' do
         
         register_container_mockauth
@@ -54,22 +63,16 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
 
         register_container_mockauth
 
-        get '/todoitem', params: { }
-        initial_response = PagedResult.from_json(JSON.parse(response.body), TodoItem)
-
-        #get the last page 
-        get '/todoitem', params: { page_number: initial_response.total_pages }
-        last_page_response = PagedResult.from_json(JSON.parse(response.body), TodoItem)
-
         #get the current highest order 
-        last_item = last_page_response.items[-1]
+        last_item = TodoItem.where(created_by:1)
+                            .order(sort_order: :desc).first.sort_order
 
         #post a new item
-        post '/todoitem', params: { text: "Should have order #{last_item.sort_order + 1}" }, as: :json
+        post '/todoitem', params: { text: "Should have order #{last_item + 1}" }, as: :json
         assert_response :success
 
         posted_item = TodoItem.from_json(JSON.parse(response.body))
-        assert_equal last_item.sort_order + 1, posted_item.sort_order 
+        assert_equal last_item + 1, posted_item.sort_order 
 
     end 
 

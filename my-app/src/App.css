@@ -42,3 +42,8 @@
     height: 20px;
     border: dotted 1px white;
 }
+
+.main-content 
+{
+  margin-top:10rem;
+}

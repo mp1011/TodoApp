@@ -1,10 +1,11 @@
 class GetTodoItems
-    attr_reader :search_text, :page_info, :current_user
+    attr_reader :search_text, :page_info, :current_user, :parent_id
 
-    def initialize(search_text, page_info, current_user)
+    def initialize(search_text, page_info, current_user, parent_id=nil)
         @search_text = search_text
         @page_info = page_info
-        @current_user = current_user 
+        @current_user = current_user
+        @parent_id = parent_id 
     end 
 
     def handle
@@ -20,7 +21,7 @@ class GetTodoItemsHandler
 
         query = data_context
             .todo_items
-            .where('created_by = ?', request.current_user.id)
+            .where(created_by: request.current_user.id, parent_id: request.parent_id)
 
         if !request.search_text.nil? && !request.search_text.empty?
             query = query.where('text like ?', "%#{request.search_text}%")
