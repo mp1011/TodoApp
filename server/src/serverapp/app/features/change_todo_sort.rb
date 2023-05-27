@@ -19,12 +19,12 @@ class ChangeTodoSortHandler
     def handle(request)
 
         item = data_context.todo_items
-            .where("created_by = ? and id = ?", request.current_user, request.item.id)
-            .first 
-
+            .where(created_by: request.current_user.id, id: request.item.id)
+            .first
        
         items_to_reorder = data_context.todo_items
-            .where("created_by = ? and sort_order >= ? and id <> ?", request.current_user, request.new_sort, request.item.id)
+            .where(created_by: request.current_user.id, parent_id: request.item.parent_id)
+            .where("sort_order >= ? and id <> ?", request.new_sort, request.item.id)
             .order("sort_order asc")
         
         changed_items = []
