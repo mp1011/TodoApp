@@ -21,8 +21,7 @@ class ApiClient {
     return this.getJson<User>('user');
   }
 
-  async getTodoItems(searchText?:string, pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>>
-    {
+  async getTodoItems(searchText?:string, pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>> {
         var query = "todoitem";
 
         const params = new URLSearchParams();
@@ -38,6 +37,18 @@ class ApiClient {
         }
        
         return this.getJson<PagedResult<TodoItem>>(`${query}?${params.toString()}`);
+    }
+
+    async getTodoItemChildren(id:number, pageInfo?:PageInfo) : Promise<PagedResult<TodoItem>> {
+      const params = new URLSearchParams();
+      
+      if(pageInfo)
+      {
+          params.append('pageNumber', pageInfo.page_number.toString());
+          params.append('pageSize', pageInfo.page_size.toString());
+      }
+     
+      return this.getJson<PagedResult<TodoItem>>(`/todoitem/${id}/children?${params.toString()}`);
     }
 
     async saveTodoItem(todoItem:TodoItem) : Promise<TodoItem>

@@ -40,4 +40,11 @@ class TodoItemController < ApplicationController
         render json: changed_item
     end 
 
+    def set_parent 
+        item = GetTodoItemById.new(params[:id], @current_user).handle
+        parent = GetTodoItemById.new(params[:parent_id], @current_user).handle        
+        SetTodoParent.new(item, parent, @current_user).handle
+        render json: item
+    end 
+
 end

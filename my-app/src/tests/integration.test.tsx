@@ -2,6 +2,8 @@ import ApiClient from '../services/api-client';
 import { GetTodoItemsRequest } from '../requests/get-todo-items';
 import { AddTodoItemRequest } from '../requests/add-todo-item';
 import { UpdateTodoItemCommand } from '../requests/update-todo-item-command';
+import { SetTodoParentCommand } from '../requests/set-todo-parent-command';
+import { GetTodoItemChildrenRequest } from '../requests/get-todo-item-children';
 import TodoItem from '../models/todo-item';
 import PagedResult from '../models/paged-result';
 import 'reflect-metadata'; 
@@ -29,7 +31,7 @@ describe('GetTodoItems', () => {
     });
 
     it('should get all records with text', async () => {       
-        const items = await new GetTodoItemsRequest("Sample 2").handle() as TodoItem[];
+        const items = await new GetTodoItemsRequest("TEST ABC").handle() as TodoItem[];
         expect(items.length).toBe(2);
     })
 })
@@ -52,5 +54,20 @@ describe('UpdateTodoItemCommand', () => {
         const result2 = await new UpdateTodoItemCommand(1, { check: false }).handle();
         expect(result2.check).toBe(false);
 
+    })
+})
+
+describe('SetTodoParentCommand', () => {
+    it('should add item to a parent', async () => {  
+        
+        const key = Date.now().toString();
+        const child = await new AddTodoItemRequest(`TEST_CHILD_${key}`).handle();
+        const parent = await new AddTodoItemRequest(`TEST_PARENT_${key}`).handle();
+
+        await new SetTodoParentCommand(child.id, parent.id).handle();
+
+        const children = await new GetTodoItemChildrenRequest(parent.id).handle();
+        const updatedChild = children.find(e => e.id === child.id);
+        expect(updatedChild!.parent_id).toBe(parent.id);        
     })
 })

@@ -113,6 +113,25 @@ class TodoItemControllerTest < ActionDispatch::IntegrationTest
         assert_equal !was_check, new_response.check  
     end 
 
+    test 'can set parent of item' do
+        register_container_mockauth
+
+        parent_id = 22
+        item_id = 20 
+
+        get "/todoitem/#{parent_id}/children", params: { page_number:0, page_size:100}
+        children_before = PagedResult.from_json(JSON.parse(response.body), TodoItem).items
+
+        assert_nil children_before.find { |x| x.id == item_id }
+
+        put "/todoitem/#{item_id}/setparent/#{parent_id}"
+        get "/todoitem/#{parent_id}/children", params: { page_number:0, page_size:100}
+        children_after = PagedResult.from_json(JSON.parse(response.body), TodoItem).items
+
+        assert_not_nil children_after.find { |x| x.id == item_id }
+
+    end
+
     test 'gives 404 if not found' do 
         register_container_mockauth
         get "/todoitem/9999999"

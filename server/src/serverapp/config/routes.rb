@@ -33,6 +33,10 @@ Rails.application.routes.draw do
   end
 
   Rails.application.routes.draw do
+    put '/todoitem/:id/setparent/:parent_id', to: 'todo_item#set_parent'
+  end
+
+  Rails.application.routes.draw do
     get '/user', to: 'user#current'
   end
 

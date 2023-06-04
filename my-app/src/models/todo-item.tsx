@@ -6,6 +6,7 @@ class TodoItem {
     readonly question: boolean;
     readonly danger: boolean;
     readonly blocked: boolean;
+    readonly parent_id: number | null;
     
 
     constructor(id:number, 
@@ -14,7 +15,8 @@ class TodoItem {
                 check: boolean=false, 
                 question: boolean=false,
                 danger: boolean=false,
-                blocked: boolean=false) {
+                blocked: boolean=false,
+                parent_id :number | null = null) {
         this.id = id;
         this.text = text;
         this.sort_order = sort_order;
@@ -22,6 +24,7 @@ class TodoItem {
         this.question=question;
         this.danger=danger;
         this.blocked=blocked;
+        this.parent_id=parent_id;
     }
 }
 
