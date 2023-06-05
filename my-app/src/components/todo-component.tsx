@@ -1,11 +1,17 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import TodoItem from '../models/todo-item';
 import { useDrag } from 'react-dnd';
 import TodoStateButton from './todo-state-button';
 import { UpdateTodoItemCommand } from '../requests/update-todo-item-command';
+import { GetTodoItemChildrenRequest } from '../requests/get-todo-item-children';
+import TodoChildDropTarget from './todo-child-drop-target';
 
 function TodoComponent(props: { item:TodoItem, itemChanged:(arg: TodoItem)=>void }) {
     
+    const [children, setChildren] = useState<TodoItem[]>([]);
+    const [noChildren, setNoChildren] = useState<boolean>(false);
+
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'todo-item',
         item: props.item,
@@ -13,6 +19,25 @@ function TodoComponent(props: { item:TodoItem, itemChanged:(arg: TodoItem)=>void
         isDragging: monitor.isDragging()
         })
     }))
+
+
+    useEffect(()=> {
+
+        async function fetchData() {
+               
+          if((!children || children.length == 0) && !noChildren)
+          {
+            console.log("NC " + noChildren);
+            const children = await new GetTodoItemChildrenRequest(props.item.id).handle();
+            console.log("CL " + children.length);
+
+            setChildren(children);
+            setNoChildren(children.length === 0);
+          }
+        }
+    
+        fetchData();
+    })
 
     const checkChanged = async (newValue:boolean) => {
         const changedItem = await new UpdateTodoItemCommand(props.item.id, { check: newValue }).handle();
@@ -52,10 +77,13 @@ function TodoComponent(props: { item:TodoItem, itemChanged:(arg: TodoItem)=>void
                                     
             </div>
             <div className="card-body">
+                <TodoChildDropTarget parent={props.item} childrenChanged={props.itemChanged} /> 
                 <p className="card-text text-dark text-start">
-                    
-                    {props.item.text}                    
+                    {props.item.text}   
+                    <span>{children.length}</span>                                     
                 </p>                    
+                
+                
             </div>
         </div>);    
 }
